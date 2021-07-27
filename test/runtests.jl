@@ -2,5 +2,7 @@ using ModuleDocstrings
 using Test
 
 @testset "ModuleDocstrings.jl" begin
-    # Write your tests here.
+    str = ModuleDocstrings.generate(ModuleDocstrings)
+    @test occursin("ModuleDocstrings.generate", str)
+    @test occursin("ModuleDocstrings.write", str)
 end
