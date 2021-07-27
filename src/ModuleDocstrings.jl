@@ -1,3 +1,7 @@
+"""
+- `ModuleDocstrings.generate`: Create an API summary docstring for a module.
+- `ModuleDocstrings.write`: add an API summary docstring to a package.
+"""
 module ModuleDocstrings
 
 """
@@ -93,6 +97,7 @@ end
 Modify the source file for `mod` to add an API summary docstring.
 
 The docstring is produced by [ModuleDocstrings.generate](@ref).
+The package should be checked out in `develop` mode before calling `write`.
 """
 write(mod::Module) = write(mod, generate(mod))
 
