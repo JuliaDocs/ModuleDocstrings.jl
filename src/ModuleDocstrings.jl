@@ -40,19 +40,8 @@ end
 
 firstsentences(docs::Base.Docs.MultiDoc) = String[firstsentences(docstr) for (sig, docstr) in docs.docs]
 firstsentences(doc) = firstsentence(doc)
-
 firstsentence(docstr::Base.Docs.DocStr) = firstsentence(docstr.text)
-function firstsentence(itr)
-    # @show itr
-    # @assert length(itr) == 1 "multiple entries ($(length(itr))) for a given signature"
-    # return firstsentence(itr[1])
-    for item in itr
-        # @show typeof(item)
-        isa(item, AbstractString) || continue
-        return firstsentence(item)
-    end
-    error("no string found")
-end
+firstsentence(itr) = firstsentence(join(itr))
 function firstsentence(d::AbstractDict)
     @assert length(d) == 1 "multiple entries ($(length(itr))) for a given signature"
     return firstsentence(first(d).second)
