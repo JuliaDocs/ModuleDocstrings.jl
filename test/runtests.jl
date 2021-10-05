@@ -30,5 +30,5 @@ using Test
     end)
     @test occursin("- `Main.anonymous.foo1`: `foo1` is pretty useful.", str)
     @test occursin("- `Main.anonymous.foo2`: `foo2` doesn't show the signature.", str)
-    @test_broken occursin("- `Main.anonymous.foo3`: `foo3` contains a [`Main.anonymous.foo1`](@ref) that contains a period.", str)
+    @test occursin("- `Main.anonymous.foo3`: `foo3` contains a [`Main.anonymous.foo1`](@ref) that contains a period.", str)
 end

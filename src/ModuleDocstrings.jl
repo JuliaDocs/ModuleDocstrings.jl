@@ -52,12 +52,12 @@ function firstsentence(str::AbstractString)
     for line in split(str, '\n')
         startswith(line, "    ") && continue   # code line
         all(isspace, line) && continue
-        idx = findfirst('.', line)
+        idx = findfirst(r"\.(\s|$)", line)
         if idx === nothing
             print(io, line, ' ')
             continue
         end
-        print(io, line[1:idx])
+        print(io, line[1:first(idx)])
         return String(take!(io))
     end
     return String(take!(io))
