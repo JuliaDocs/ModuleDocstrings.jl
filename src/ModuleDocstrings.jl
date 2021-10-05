@@ -72,11 +72,20 @@ The package should be checked out in `develop` mode before calling `write`.
 """
 function write(mod::Module, str)
     path = pathof(mod)
+    path === nothing && error_write(mod)
     modstr = read(path, String)
     idxs = findfirst("module $mod", modstr)
     idxs === nothing && error("could not identify start of module")
-    open(path, "w") do io
-        print(io, modstr[1:first(idxs)-1], "\"\"\"\n", str, "\"\"\"\n", modstr[first(idxs):end])
+    try
+        open(path, "w") do io
+            print(io, modstr[1:first(idxs)-1], "\"\"\"\n", str, "\"\"\"\n", modstr[first(idxs):end])
+        end
+    catch err
+        if isa(err, SystemError)
+            error_write(mod)
+        else
+            rethrow()
+        end
     end
 end
 
@@ -89,5 +98,7 @@ The docstring is produced by [ModuleDocstrings.generate](@ref).
 The package should be checked out in `develop` mode before calling `write`.
 """
 write(mod::Module) = write(mod, generate(mod))
+
+error_write(mod) = error("$mod must be a package that you have checked out in `Pkg.develop` mode")
 
 end

@@ -1,4 +1,6 @@
 using ModuleDocstrings
+using Example   # test error on a non-devved package
+using Pkg
 using Test
 
 @testset "ModuleDocstrings.jl" begin
@@ -6,7 +8,7 @@ using Test
     @test occursin("ModuleDocstrings.generate", str)
     @test occursin("ModuleDocstrings.write", str)
 
-    str = ModuleDocstrings.generate(@eval Module() begin
+    m = @eval Module() begin
         """
             foo1()
 
@@ -27,8 +29,49 @@ using Test
         foo3()
 
         @__MODULE__
-    end)
+    end
+    str = ModuleDocstrings.generate(m)
     @test occursin("- `Main.anonymous.foo1`: `foo1` is pretty useful.", str)
     @test occursin("- `Main.anonymous.foo2`: `foo2` doesn't show the signature.", str)
     @test occursin("- `Main.anonymous.foo3`: `foo3` contains a [`Main.anonymous.foo1`](@ref) that contains a period.", str)
+
+    if Base.VERSION >= v"1.8.0-DEV.363"   # use strings in @test_throws; we don't care what type of error this is
+        @test_throws "must be a package that you have checked out in" ModuleDocstrings.write(m)
+        @test_throws "must be a package that you have checked out in" ModuleDocstrings.write(Example)
+    else
+        @test_throws Exception ModuleDocstrings.write(m)
+        @test_throws Exception ModuleDocstrings.write(Example)
+    end
+
+    mktempdir() do pkgs
+        push!(LOAD_PATH, pkgs)
+        newpkgdir = joinpath(pkgs, "DevDummy")
+        Pkg.generate(newpkgdir)
+        open(joinpath(newpkgdir, "src", "DevDummy.jl"), "w") do io
+            print(io,
+"""
+module DevDummy
+
+\"\"\"
+    greet()
+
+Print a delightful greeting.
+\"\"\"
+greet() = print("Hello World!")
+
+end # module
+"""
+            )
+        end
+        @eval using DevDummy
+        ModuleDocstrings.write(DevDummy)
+        str = read(joinpath(newpkgdir, "src", "DevDummy.jl"), String)
+        @test occursin(
+"""
+\"\"\"
+- `DevDummy.greet`: Print a delightful greeting.
+\"\"\"
+module DevDummy
+""", str)
+    end
 end
