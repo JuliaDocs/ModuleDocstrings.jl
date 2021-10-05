@@ -10,7 +10,11 @@ module ModuleDocstrings
 Return an API summary string for `mod`.
 
 The summary is assembled from all docstrings in the package, picking the first sentence of each docstring.
-Expect to need to edit these by hand to produce something truly useful.
+When added to the package (see [`ModuleDocstrings.write`](@ref)), you should expect to make edits by hand:
+
+- exclude docstrings that shouldn't appear in the API summary
+- rephrase summaries for greater clarity or compactness (alternatively, consider making such changes to the
+  original docstring)
 """
 function generate(mod::Module)
     exported = Set(names(mod))
