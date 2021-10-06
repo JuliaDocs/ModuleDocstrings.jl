@@ -72,6 +72,7 @@ The package should be checked out in `develop` mode before calling `write`.
 """
 function write(mod::Module, str)
     path = pathof(mod)
+    (path === nothing || !iswritable(path)) && error_write(mod, path)
     modstr = read(path, String)
     idxs = findfirst("module $mod", modstr)
     idxs === nothing && error("could not identify start of module")
@@ -89,5 +90,11 @@ The docstring is produced by [ModuleDocstrings.generate](@ref).
 The package should be checked out in `develop` mode before calling `write`.
 """
 write(mod::Module) = write(mod, generate(mod))
+
+# this is replacing, not extending, the Base function of the same name
+iswritable(filename::AbstractString) = isfile(filename) && (uperm(filename) & 0x02) != 0x00
+
+error_write(mod, ::Nothing) = error("$mod must be a writable package, but there is no corresponding file, suggesting it wasn't loaded from a package.")
+error_write(mod, path::AbstractString) = error("$mod must be a writable package, but the path \"$path\" is not writable.\nDid you forget to `Pkg.develop` the package?")
 
 end
