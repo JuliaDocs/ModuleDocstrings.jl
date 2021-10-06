@@ -55,6 +55,7 @@ julia> print(ModuleDocstrings.generate(TestDocStrings))
 ```
 
 From this, you can see that both methods of `distance` are listed, as well as the single method for `radius`.
+For each, only the first sentence is used in the summary.
 
 If this were a package that you have in `Pkg.develop` mode, you could insert this string into the package with [`ModuleDocstrings.write`](@ref).  However, in this case, you get
 
