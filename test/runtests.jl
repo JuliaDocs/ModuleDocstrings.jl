@@ -36,8 +36,8 @@ using Test
     @test occursin("- `Main.anonymous.foo3`: `foo3` contains a [`Main.anonymous.foo1`](@ref) that contains a period.", str)
 
     if Base.VERSION >= v"1.8.0-DEV.363"   # use strings in @test_throws; we don't care what type of error this is
-        @test_throws "must be a package that you have checked out in" ModuleDocstrings.write(m)
-        @test_throws "must be a package that you have checked out in" ModuleDocstrings.write(Example)
+        @test_throws "must be a writable package, but there is no corresponding file" ModuleDocstrings.write(m)
+        @test_throws r"must be a writable package, but the path \".*\" is not writable" ModuleDocstrings.write(Example)
     else
         @test_throws Exception ModuleDocstrings.write(m)
         @test_throws Exception ModuleDocstrings.write(Example)
