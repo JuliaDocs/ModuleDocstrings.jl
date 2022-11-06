@@ -1,6 +1,6 @@
 # ModuleDocstrings
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaDocs.github.io/ModuleDocstrings.jl/stable)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://ModuleDocstrings.juliadocs.org/stable)
 [![Build Status](https://github.com/JuliaDocs/ModuleDocstrings.jl/workflows/CI/badge.svg)](https://github.com/JuliaDocs/ModuleDocstrings.jl/actions)
 [![Coverage](https://codecov.io/gh/JuliaDocs/ModuleDocstrings.jl/branch/main/graph/badge.svg?token=5Wdh1eXbGc)](https://codecov.io/gh/JuliaDocs/ModuleDocstrings.jl)
 
