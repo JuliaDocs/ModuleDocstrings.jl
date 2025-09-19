@@ -49,8 +49,8 @@ julia> using ModuleDocstrings
 
 julia> print(ModuleDocstrings.generate(TestDocStrings))
 - `distance`:
-  + Compute the minimum distance between `pos` and any point in `points`.
   + Compute the distance between points `pos1` and `pos2`.
+  + Compute the minimum distance between `pos` and any point in `points`.
 - `radius`: Compute the radius of the cartesian-coordinate position `[x, y, z]`.
 ```
 
@@ -62,17 +62,7 @@ If this were a package that you have in `Pkg.develop` mode, you could insert thi
 ```jldoctest example; filter=(r"julia/dev/.*")
 julia> ModuleDocstrings.write(TestDocStrings)
 ERROR: TestDocStrings must be a writable package, but there is no corresponding file, suggesting it wasn't loaded from a package.
-Stacktrace:
- [1] error(s::String)
-   @ Base ./error.jl:33
- [2] error_write(mod::Module, #unused#::Nothing)
-   @ ModuleDocstrings ~/.julia/dev/ModuleDocstrings/src/ModuleDocstrings.jl:101
- [3] write(mod::Module, str::String)
-   @ ModuleDocstrings ~/.julia/dev/ModuleDocstrings/src/ModuleDocstrings.jl:79
- [4] write(mod::Module)
-   @ ModuleDocstrings ~/.julia/dev/ModuleDocstrings/src/ModuleDocstrings.jl:96
- [5] top-level scope
-   @ none:1
+[...]
 ```
 
 This error ocurred because we defined the module at the REPL; it will likewise error if you have `Pkg.add`ed rather than `Pkg.develop`ed.  But for a package checked out in `develop` mode it will modify the main package file.

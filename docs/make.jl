@@ -6,16 +6,17 @@ DocMeta.setdocmeta!(ModuleDocstrings, :DocTestSetup, :(using ModuleDocstrings); 
 makedocs(;
     modules=[ModuleDocstrings],
     authors="Tim Holy <tim.holy@gmail.com> and contributors",
-    repo="https://github.com/JuliaDocs/ModuleDocstrings.jl/blob/{commit}{path}#{line}",
+    # repo="https://github.com/JuliaDocs/ModuleDocstrings.jl/blob/{commit}{path}#{line}",
     sitename="ModuleDocstrings.jl",
     format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://JuliaDocs.github.io/ModuleDocstrings.jl",
+        edit_link="main",
         assets=String[],
     ),
     pages=[
         "Home" => "index.md",
     ],
+    warnonly=[:missing_docs],
 )
 
 deploydocs(;
