@@ -64,7 +64,7 @@ end # module
             )
         end
         @eval using DevDummy
-        ModuleDocstrings.write(DevDummy)
+        ModuleDocstrings.write(invokelatest(getglobal, @__MODULE__, :DevDummy))
         str = read(joinpath(newpkgdir, "src", "DevDummy.jl"), String)
         @test occursin(
 """
